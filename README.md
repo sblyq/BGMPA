@@ -1,29 +1,16 @@
 # BGMPA
 
-This is the PyTorch implementation for **BGMPA**:
-**B**ehavior-**g**uided **M**odality Graph **P**ropagation with Preference **A**ggregation for multimodal recommendation.
+This repository provides the PyTorch implementation of **BGMPA**:
+**Behavior-guided Modality Graph Propagation with Preference Aggregation for Multimodal Recommendation**.
+![Performance Comparison](img/image1.png)
 
-BGMPA addresses the mismatch between content-based modality similarity and behavior-oriented preference relevance. It preserves both plain modality graphs and behavior-guided modality graphs, performs dual-view propagation, and uses collaborative context for graph-view reliability selection and preference-guided multimodal aggregation.
+## Enviroment Requirement
 
-## Introduction
+Python 3.7
 
-The repository is organized as follows:
+Pytorch 1.13
 
-```text
-BGMPA_clean_code/
-  data/                     # dataset placeholder
-  src/
-    common/                 # trainer and base recommender
-    configs/                # model, dataset, and global configs
-    models/                 # BGMPA implementation
-    utils/                  # data loading, evaluation, logging
-    main.py                 # training entry
-  requirements.txt
-```
-
-## Environment
-
-The code has been tested with Python 3.8+ and PyTorch 1.13+.
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -31,59 +18,39 @@ pip install -r requirements.txt
 
 ## Dataset
 
-Please place the processed Amazon datasets under `data/`:
+Download from Google Drive: Baby/Sports/Clothing
 
-```text
-data/
-  baby/
-    baby.inter
-    image_feat.npy
-    text_feat.npy
-  sports/
-    sports.inter
-    image_feat.npy
-    text_feat.npy
-  clothing/
-    clothing.inter
-    image_feat.npy
-    text_feat.npy
-```
+The data comprises text and image features extracted from Sentence-Transformers and CNN.
 
-Dataset-specific configuration files are available in `src/configs/dataset/`.
+## How to run
 
-## Usage
+Place the downloaded data, e.g., `baby`, into the `data` directory.
 
-Train BGMPA on Baby:
+Enter the `src` folder and execute the following command:
 
 ```bash
-cd src
 python main.py -m BGMPA -d baby
 ```
 
-Train on Sports or Clothing:
+Other parameters can be set either through the command line or by using the configuration files located in `configs/model/BGMPA.yaml` and `configs/dataset/*.yaml`.
 
-```bash
-cd src
-python main.py -m BGMPA -d sports
-python main.py -m BGMPA -d clothing
-```
+## Performance Comparison
 
-Override hyperparameters from the command line:
+![Performance Comparison](img/image2.png)
 
-```bash
-cd src
-python main.py -m BGMPA -d baby --image_knn_k=40 --text_knn_k=10 --behavior_graph_alpha=0.6
-```
+## Best hyperparameters for reproducibility
 
-The main hyperparameters are defined in `src/configs/model/BGMPA.yaml`.
+We present the optimal hyperparameters for BGMPA to replicate the results shown in Table 2 of our paper:
 
-## Reproducibility Notes
-
-This clean release keeps only the core training and evaluation code. Runtime logs, cached KNN graphs, model checkpoints, processed feature files, and paper drafts are intentionally excluded from version control. Pre-computed graph files can be regenerated during training from the processed interaction and feature files.
+| Datasets | n_ui_layers | n_layers | image_knn_k | text_knn_k | behavior_graph_alpha | cl_loss | dual_graph_cl_weight | reg_weight | dropout_rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baby | 4 | 1 | 40 | 10 | 0.6 | 0.01 | 0.002 | 1e-04 | 0.1 |
+| Sports | 3 | 1 | 10 | 10 | 0.3 | 0.03 | 0.002 | 1e-04 | 0 |
+| Clothing | 3 | 1 | 15 | 10 | 0.5 | 0.01 | 0.002 | 1e-05 | 0 |
 
 ## Citation
 
-If you find this repository useful, please cite our paper:
+If you find BGMPA useful in your research, please consider citing our paper.
 
 ```bibtex
 @inproceedings{bgmpa2026,
@@ -94,6 +61,8 @@ If you find this repository useful, please cite our paper:
 }
 ```
 
+This code is made available solely for academic research purposes.
+
 ## Acknowledgement
 
-The project structure follows common multimodal recommendation codebases, including MMRec-style training and evaluation organization.
+The structure of this code is inspired by the MMRec framework. We acknowledge and appreciate their valuable contributions.
