@@ -1,0 +1,37 @@
+embedding_size: 64
+feat_embed_dim: 64
+cf_model: lightgcn
+preference_gate_type: "learnable_lower_bound"
+preference_gate_lower_bound: 0.5
+behavior_graph_fusion_type: "linear"
+behavior_rerank_lambda: 0.5
+behavior_soft_gate_beta: 5.0
+behavior_filter_beta: 5.0
+behavior_filter_threshold: 0.1
+
+# Search space used for hyperparameter tuning:
+# n_ui_layers: [1, 2, 3, 4]
+# n_layers: [1, 2, 3, 4]
+# embedding_size: [64]
+# reg_weight: [0.0, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2]
+# dropout_rate: [0.0, 0.1, 0.2, 0.3, 0.5]
+# image_knn_k: [5, 10, 15, 20, 40, 60]
+# text_knn_k: [5, 10, 15, 20, 40]
+# cl_loss: [0.0, 1e-4, 1e-3, 1e-2, 0.03, 0.1]
+# dual_graph_cl_weight: [0.0, 1e-4, 1e-3, 0.002, 1e-2, 0.02]
+# behavior_graph_alpha: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+# behavior_graph_fusion_type: ["linear"]
+
+hyper_parameters: [
+  "n_ui_layers",
+  "n_layers",
+  "embedding_size",
+  "reg_weight",
+  "dropout_rate",
+  "image_knn_k",
+  "text_knn_k",
+  "cl_loss",
+  "dual_graph_cl_weight",
+  "behavior_graph_alpha",
+  "behavior_graph_fusion_type"
+]
